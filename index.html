@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask me anything chat bot - Martin Bysted</title>
+    <link rel="stylesheet" href="./assets/styles/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
@@ -12,16 +13,20 @@
 <body>
     <main>
         <section>
-            <article>
-                <img src="./assets/images/martinImg.jpg" alt="Billede af Martin Bysted">
-                <h1>Ask me anything</h1>
-                <div>
-                    <span>x</span>
-                    <p>questions asked</p>
+            <article class="flexContainer">
+                <!-- top row: image + title + counter -->
+                <div class="top-row">
+                    <img src="./assets/images/martinImg.jpg" alt="Billede af Martin Bysted">
+                    <div class="title-group">
+                        <h1>Ask me anything</h1>
+                        <p class="counter"><span>0</span>Question(s) asked </p>
+                    </div>
                 </div>
-                <div>
-                    <div>
-                        <div>
+
+                <!-- chat area -->
+                <div class="chat-area">
+                    <div class="msgInfo">
+                        <div class="msg-icon">
                             <i class="fa-regular fa-comments"></i>
                         </div>
                         <p class="dimTxt">No questions yet.</p>
@@ -29,13 +34,15 @@
                     </div>
                     <form id="amaForm">
                         <input type="text" placeholder="Ask me anything...">
-                        <button type="submit"><span class="material-symbols-outlined">arrow-outward</span></button>
-
+                        <button type="submit">
+                            <span class="material-symbols-outlined">arrow_outward</span>
+                        </button>
                     </form>
                 </div>
             </article>
         </section>
     </main>
 </body>
+
 
 </html>
