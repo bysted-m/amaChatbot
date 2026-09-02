@@ -45,7 +45,7 @@ section article {
     width: 250px;
     object-fit: cover;
     border-radius: 12px;
-    border: 2.5px solid #E84300;
+    box-shadow: 0 0px 40px rgb(232, 66, 0, 0.25);
     background-color: #2E2A24;
     flex-shrink: 0;
 }
@@ -167,7 +167,7 @@ section article {
     border: none;
     padding: 0.85rem 0.3rem 0.85rem 0;
     font-size: 0.95rem;
-    color: #FFFFFF;
+    color: #E8DFD5;
     outline: none;
     min-width: 0;
 }
@@ -188,7 +188,7 @@ section article {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #FFFFFF;
+    color: #2E2A24;
     transition: 0.175s;
     flex-shrink: 0;
 }
@@ -197,9 +197,17 @@ section article {
     background: #cc3a00;
 }
 
+#amaForm button .material-symbols-outlined {
+    transition: 0.175s;
+}
+
+#amaForm button:hover .material-symbols-outlined {
+    color: #E8DFD5;
+}
+
 #amaForm button span {
     font-size: 1.6rem;
-    color: #FFFFFF;
+    color: #5A5248;
 }
 
 /* responsive */
