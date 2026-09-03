@@ -14,7 +14,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-family: "Inter", sans-serif;
     padding: 1.5rem;
 }
 
@@ -121,12 +121,15 @@ section article {
     align-items: center;
     justify-content: center;
     color: #E84300;
-    font-size: 1.2rem;
     margin-bottom: 1rem;
 }
 
+.msg-icon img {
+    width: 25px;
+}
+
 .dimTxt {
-    color: #E8DFD5;
+    color: #3E3830;
     opacity: 0.8;
     font-size: 0.95rem;
     line-height: 1.5;
@@ -137,8 +140,6 @@ section article {
 }
 
 .dimTxt:last-of-type {
-    font-size: 0.85rem;
-    opacity: 0.55;
     margin-bottom: 1.6rem;
 }
 
@@ -211,22 +212,61 @@ section article {
 }
 
 /* responsive */
-@media (max-width: 450px) {
-    section article {
-        padding: 1.5rem 1rem;
+@media (max-width: 700px) {
+
+    .flexContainer {
+        display: block;
+    }
+
+    .title-group {
+        display: flex;
+    }
+
+    .top-row {
+        display: flex;
+        justify-content: space-between;
     }
 
     .top-row img {
-        width: 54px;
-        height: 54px;
+        width: 100px;
     }
+
+    .counter {
+        background: #211E1A;
+        color: #E8DFD5;
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+        margin: 0;
+        letter-spacing: 0.03em;
+        border: solid;
+        border: 1px solid #2E2A24;
+        border-radius: 12px;
+        padding-inline: 1rem;
+        padding-block: 3.3rem;
+        width: 250px;
+        align-self: flex-end;
+    }
+
+    .counter span {
+        display: block;
+        color: #E84300;
+        font-size: 3rem;
+    }
+
 
     .title-group h1 {
         font-size: 1.25rem;
+        display: inline;
     }
 
     .counter {
         font-size: 0.7rem;
+    }
+
+    .chat-area {
+        border-radius: 0 0 1.8rem 1.8rem;
+        height: 70vh;
     }
 
     #amaForm {
@@ -245,5 +285,35 @@ section article {
 
     #amaForm button span {
         font-size: 1.4rem;
+    }
+
+}
+
+@media (max-width: 525px) {
+    .counter {
+        background: #211E1A;
+        color: #E8DFD5;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-align: center;
+        margin: 0;
+        letter-spacing: 0.03em;
+        border: solid;
+        border: 1px solid #2E2A24;
+        border-radius: 12px;
+        padding-inline: 0.25rem;
+        padding-block: 5rem;
+        /* width: 250px; */
+        align-self: flex-end;
+    }
+
+    .counter span {
+        display: block;
+        color: #E84300;
+        font-size: 1.5rem;
+    }
+
+    .title-group {
+        padding-right: 1rem;
     }
 }
