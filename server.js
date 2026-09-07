@@ -26,19 +26,45 @@ const answers = [
     }
 ];
 
-function findAnswer(question) {
+function countMatches(keywords, normalizedQuestion) {
+    const matches = keywords.filter((keyword) =>
+        normalizedQuestion.includes(keyword)
+    );
+
+    return matches.length;
+}
+
+function findBestAnswer(question) {
     const normalizedQuestion = question.toLowerCase();
+    let bestScore = 0;
+    let bestAnswer = "Det kender jeg ikke svaret på endnu.";
 
-    for (const answerGroup of answers) {
-        const hasMatch = answerGroup.keywords.some((keyword) => normalizedQuestion.includes(keyword));
+    for (const answerObject of answers) {
+        const score = countMatches(answerObject.keywords, normalizedQuestion);
 
-        if (hasMatch) {
-            return answerGroup.answer;
+        if (score > bestScore) {
+            bestScore = score;
+            bestAnswer = answerObject.answer;
         }
     }
 
-    return "Det kender jeg ikke svaret på endnu.";
+    return bestAnswer;
 }
+
+
+// function findAnswer(question) {
+//     const normalizedQuestion = question.toLowerCase();
+
+//     for (const answerObject of answers) {
+//         const hasMatch = answerObject.keywords.some((keyword) => normalizedQuestion.includes(keyword));
+
+//         if (hasMatch) {
+//             return answerGroup.answer;
+//         }
+//     }
+
+//     return "Det kender jeg ikke svaret på endnu.";
+// }
 
 function sanitizeQuestion(input) {
     return input.replace(/[\u0000-\u001F\u007F]/g, "");
@@ -62,7 +88,7 @@ app.post("/ask", (req, res) => {
     } else {
         messages.push({ type: "question", text: question });
 
-        const answer = findAnswer(question);
+        const answer = findBestAnswer(question);
         messages.push({ type: "answer", text: answer });
     }
 
