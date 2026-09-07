@@ -40,6 +40,10 @@ function findAnswer(question) {
     return "Det kender jeg ikke svaret på endnu.";
 }
 
+function sanitizeQuestion(input) {
+    return input.replace(/[\u0000-\u001F\u007F]/g, "");
+}
+
 const messages = [];
 
 app.get("/", (req, res) => {
@@ -47,11 +51,14 @@ app.get("/", (req, res) => {
 });
 
 app.post("/ask", (req, res) => {
-    const question = req.body.question.trim();
+    const rawQuestion = req.body.question;
+    const question = sanitizeQuestion(rawQuestion).trim();
     let error = "";
 
     if (!question) {
         error = "Skriv et spørgsmål, før du sender."
+    } else if (question.length > 280) {
+        error = "Spørgsmålet må højst være 280 tegn.";
     } else {
         messages.push({ type: "question", text: question });
 

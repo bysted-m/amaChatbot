@@ -214,6 +214,7 @@ section article {
     max-width: 70%;
     width: fit-content;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1rem;
 }
 
 /* ----- form / input row ----- */
