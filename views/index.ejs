@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask me anything chat bot - Martin Bysted</title>
+    <link rel="stylesheet" href="/assets/styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+    <main>
+        <section>
+            <article class="flexContainer">
+                <!-- top row: image + title + counter -->
+                <div class="top-row">
+                    <div class="title-group">
+                        <img src="/assets/images/martinImg.jpg" alt="Billede af Martin Bysted">
+                        <h1>Ask me anything</h1>
+                    </div>
+                    <p class="counter"><span>0</span>Question(s) asked </p>
+                </div>
+
+                <!-- chat area -->
+                <div class="chat-area">
+                    <div class="msgInfo">
+
+                        <% if (messages.length===0) { %>
+                            <div class="emptyState">
+                                <div class="msg-icon">
+                                    <img src="/assets/images/messageIcon.svg" alt="Message icon">
+                                </div>
+                                <p class="dimTxt">No questions yet.</p>
+                                <p class="dimTxt">Type something below.</p>
+                            </div>
+                            <% } else { %>
+
+                                <% for (const message of messages) { %>
+                                    <article class="<%= message.type %>">
+                                        <p>
+                                            <%= message.text %>
+                                        </p>
+                                    </article>
+                                    <% } %>
+
+                                        <% } %>
+                                            <% if (error) { %>
+                                                <p role="alert" class="error">
+                                                    <%= error %>
+                                                </p>
+                                                <% } %>
+
+                    </div>
+                    <form method="POST" action="/ask" id="amaForm">
+                        <textarea id="question" name="question" placeholder="Ask me anything..."></textarea>
+                        <button type="submit">
+                            <span class="material-symbols-outlined">arrow_outward</span>
+                        </button>
+                    </form>
+                </div>
+            </article>
+        </section>
+    </main>
+</body>
+<script>
+    const textarea = document.getElementById("question");
+
+    textarea.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            textarea.form.submit();
+        }
+    });
+</script>
+
+</html>
