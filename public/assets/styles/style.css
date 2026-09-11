@@ -117,6 +117,26 @@ section article {
     font-weight: 600;
 }
 
+.statsTitleRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.statsTitleRow button {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    margin-bottom: 0.6rem;
+
+    color: #5A5248;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.75rem;
+}
+
 /* counter — plain text, all caps */
 .counter {
     background: #211E1A;

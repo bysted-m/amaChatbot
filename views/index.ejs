@@ -24,7 +24,12 @@
                     <div class="sideInfo">
                         <% if (Object.keys(topicStats).length> 0) { %>
                             <div class="stats">
-                                <h2>Mest spurgte emner</h2>
+                                <div class="statsTitleRow">
+                                    <h2>Mest spurgte emner</h2>
+                                    <form method="POST" action="/clear-stats">
+                                        <button type="submit">Clear</button>
+                                    </form>
+                                </div>
                                 <ul>
                                     <% for (const [category, count] of Object.entries(topicStats)) { %>
                                         <li>

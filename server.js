@@ -7,25 +7,6 @@
 // app.set("view engine", "ejs");
 // app.use(express.urlencoded({ extended: true }));
 
-// const answers = [
-//     {
-//         keywords: ["navn", "hedder", "hvem er du"],
-//         answer: "Jeg hedder Martin. Stil mere specifikke spørgsmål, hvis du gerne vil vide mere om mig :)"
-//     },
-//     {
-//         keywords: ["fritid", "hobby", "kan lide", "hobbyer"],
-//         answer: "I min fritid kan jeg godt lide at dyrke mine hobbyer inden for bl.a. den gastronmiske verden, bruge tid sammen med mine nærmeste. Derudover træner jeg, så jeg sikrer at jeg ikke skal bekymre mig om hvad det er jeg spiser xD"
-//     },
-//     {
-//         keywords: ["bor", "by", "fra"],
-//         answer: "Jeg bor i Aalborg, men jeg kommer oprindeligt fra Sønderborg."
-//     },
-//     {
-//         keywords: ["alder", "hvor gammel", "gammel", "fødselsdag"],
-//         answer: () => `Jeg er ${calculateAge(myBirthday)} år gammel.`
-//     }
-// ];
-
 // function calculateAge(birthdate) {
 //     const today = new Date();
 //     const birthday = new Date(birthdate);
@@ -121,6 +102,7 @@
 // ---------- Opdateret med RegEx --------- //
 
 import express, { text } from "express";
+import { answers } from "./data/answers.js";
 
 const app = express();
 const port = 3000;
@@ -128,60 +110,6 @@ const port = 3000;
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
-
-const answers = [
-    {
-        keywords: ["navn", "hedder"],
-        category: "navn",
-        answer: "Jeg hedder Martin."
-    },
-    {
-        keywords: ["hvem er du", "hvad kan du", "formål"],
-        category: "purpose",
-        answer: "Jeg er en chatbot hvor du kan spille spørgsmål om Martin, og så vil jeg svare så godt som Martin nu har tilladt mig det."
-    },
-    {
-        keywords: ["fritid", "hobby", "kan lide", "hobbyer"],
-        category: "hobbies",
-        answer: "Når jeg ikke går i skole eller er på arbejde, kan jeg i min fritid godt lide at dyrke mine hobbyer inden for bl.a. den gastronmiske verden, bruge tid sammen med mine nærmeste. Derudover træner jeg, så jeg sikrer at jeg ikke skal bekymre mig om hvad det er jeg spiser xD"
-    },
-    {
-        keywords: ["arbejde", "job", "studiejob"],
-        category: "job",
-        answer: "Jeg arbejder i øjeblikket som tjener og bartender på restaurant Struktur i Aalborg, men jeg søger et studierelevant job"
-    },
-    {
-        keywords: ["uddannelse", "læser"],
-        category: "uddannelse",
-        answer: "Jeg læser en proffesionsbachelor i Webudvikling som top up på min uddannelse som Multimediedesigner."
-    },
-    {
-        keywords: ["bor", "by", "fra"],
-        category: "bosted",
-        answer: "Jeg bor i Aalborg, men jeg kommer oprindeligt fra Sønderborg."
-    },
-    {
-        keywords: ["alder", "hvor gammel", "gammel", "fødselsdag"],
-        category: "alder",
-        answer: () => `Jeg er ${calculateAge(myBirthday)} år gammel.`
-    }
-];
-
-const myBirthday = "1999-03-03";
-
-function calculateAge(birthdate) {
-    const today = new Date();
-    const birthday = new Date(birthdate);
-
-    let age = today.getFullYear() - birthday.getFullYear();
-    const monthDiff = today.getMonth() - birthday.getMonth();
-
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
-        age--;
-    }
-    return age;
-}
-
 
 // Escapes special characters in keywords so regex doesn't break on e.g. "?" or "."
 function escapeRegex(string) {
@@ -260,7 +188,6 @@ function sanitizeQuestion(input) {
     return input.replace(/[\u0000-\u001F\u007F]/g, "");
 }
 
-const messages = [];
 const topicStats = {}
 
 app.get("/", (req, res) => {
@@ -297,6 +224,14 @@ app.post("/ask", (req, res) => {
     }
 
     res.render("index", { messages, error: "", topicStats });
+});
+
+app.post("/clear-stats", (req, res) => {
+    for (const category of Object.keys(topicStats)) {
+        delete topicStats[category]
+    }
+
+    res.redirect("/");
 });
 
 app.listen(port, () => {
