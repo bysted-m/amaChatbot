@@ -120,7 +120,7 @@
 
 // ---------- Opdateret med RegEx --------- //
 
-import express from "express";
+import express, { text } from "express";
 
 const app = express();
 const port = 3000;
@@ -132,30 +132,37 @@ app.use(express.urlencoded({ extended: true }));
 const answers = [
     {
         keywords: ["navn", "hedder"],
+        category: "navn",
         answer: "Jeg hedder Martin."
     },
     {
         keywords: ["hvem er du", "hvad kan du", "formål"],
+        category: "purpose",
         answer: "Jeg er en chatbot hvor du kan spille spørgsmål om Martin, og så vil jeg svare så godt som Martin nu har tilladt mig det."
     },
     {
         keywords: ["fritid", "hobby", "kan lide", "hobbyer"],
+        category: "hobbies",
         answer: "Når jeg ikke går i skole eller er på arbejde, kan jeg i min fritid godt lide at dyrke mine hobbyer inden for bl.a. den gastronmiske verden, bruge tid sammen med mine nærmeste. Derudover træner jeg, så jeg sikrer at jeg ikke skal bekymre mig om hvad det er jeg spiser xD"
     },
     {
         keywords: ["arbejde", "job", "studiejob"],
+        category: "job",
         answer: "Jeg arbejder i øjeblikket som tjener og bartender på restaurant Struktur i Aalborg, men jeg søger et studierelevant job"
     },
     {
         keywords: ["uddannelse", "læser"],
+        category: "uddannelse",
         answer: "Jeg læser en proffesionsbachelor i Webudvikling som top up på min uddannelse som Multimediedesigner."
     },
     {
         keywords: ["bor", "by", "fra"],
+        category: "bosted",
         answer: "Jeg bor i Aalborg, men jeg kommer oprindeligt fra Sønderborg."
     },
     {
         keywords: ["alder", "hvor gammel", "gammel", "fødselsdag"],
+        category: "alder",
         answer: () => `Jeg er ${calculateAge(myBirthday)} år gammel.`
     }
 ];
@@ -208,20 +215,23 @@ function countMatches(keywords, normalizedText) {
 function findBestAnswerForPart(part) {
     const normalizedPart = part.toLowerCase();
     let bestScore = 0;
-    let bestAnswer = null;
+    let bestMatch = null;
 
     for (const answerObject of answers) {
         const score = countMatches(answerObject.keywords, normalizedPart);
 
         if (score > bestScore) {
             bestScore = score;
-            bestAnswer = answerObject.answer;
+            bestMatch = answerObject;
         }
     }
 
-    if (!bestAnswer) return null;
+    if (!bestMatch) return null;
 
-    return typeof bestAnswer === "function" ? bestAnswer() : bestAnswer;
+    return {
+        category: bestMatch.category,
+        text: typeof bestMatch.answer === "function" ? bestMatch.answer() : bestMatch.answer
+    };
 }
 
 // Splits the full question into sub-clauses, finds the best answer for each
@@ -232,15 +242,15 @@ function findAllAnswers(question) {
     const foundAnswers = [];
 
     for (const part of parts) {
-        const answer = findBestAnswerForPart(part);
+        const match = findBestAnswerForPart(part);
 
-        if (answer && !foundAnswers.includes(answer)) {
-            foundAnswers.push(answer);
+        if (match && !foundAnswers.some((answer) => answer.text === match.text)) {
+            foundAnswers.push(match);
         }
     }
 
     if (foundAnswers.length === 0) {
-        return ["Det kender jeg ikke svaret på endnu."];
+        return [{ category: null, text: "Det kender jeg ikke svaret på endnu." }];
     }
 
     return foundAnswers;
@@ -251,9 +261,10 @@ function sanitizeQuestion(input) {
 }
 
 const messages = [];
+const topicStats = {}
 
 app.get("/", (req, res) => {
-    res.render("index", { messages, error: "" });
+    res.render("index", { messages, error: "", topicStats });
 });
 
 app.post("/ask", (req, res) => {
@@ -269,7 +280,13 @@ app.post("/ask", (req, res) => {
         messages.push({ type: "question", text: question });
 
         const answerList = findAllAnswers(question);
-        messages.push({ type: "answer", text: answerList.join(" ") });
+
+        for (const match of answerList) {
+            if (match.category) {
+                topicStats[match.category] = (topicStats[match.category] ?? 0) + 1;
+            }
+        }
+        messages.push({ type: "answer", text: answerList.map((answer) => answer.text).join(" ") });
 
         //------ Svar logik med separerede svar ------//
 
@@ -279,7 +296,7 @@ app.post("/ask", (req, res) => {
         // }
     }
 
-    res.render("index", { messages, error });
+    res.render("index", { messages, error: "", topicStats });
 });
 
 app.listen(port, () => {

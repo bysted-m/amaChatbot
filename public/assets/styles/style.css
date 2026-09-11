@@ -32,18 +32,22 @@ section article {
 
 .flexContainer {
     display: flex;
-    height: 80vh;
+    height: 90vh;
 }
 
 /* ----- top row: image + title + counter (left-aligned) ----- */
 .top-row {
     padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* profile image */
 .top-row img {
 
     width: 250px;
+    max-height: fit-content;
     object-fit: cover;
     border-radius: 12px;
     box-shadow: 0 0px 40px rgb(232, 66, 0, 0.25);
@@ -66,6 +70,53 @@ section article {
     line-height: 1.2;
 }
 
+.sideInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+    margin-left: auto;
+}
+
+.stats {
+    background: #211E1A;
+    border: 1px solid #2E2A24;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    width: 250px;
+    color: #E8DFD5;
+}
+
+.stats h2 {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #5A5248;
+    margin-bottom: 0.6rem;
+}
+
+.stats ul {
+    list-style: none;
+}
+
+.stats li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #2E2A24;
+}
+
+.stats li:last-child {
+    border-bottom: none;
+}
+
+.stats li span:last-child {
+    color: #E84300;
+    font-weight: 600;
+}
+
 /* counter — plain text, all caps */
 .counter {
     background: #211E1A;
@@ -75,7 +126,6 @@ section article {
     text-align: center;
     margin: 0 auto;
     letter-spacing: 0.03em;
-    margin-top: 200px;
     border: solid;
     border: 1px solid #2E2A24;
     border-radius: 12px;
@@ -97,7 +147,7 @@ section article {
     border-left: 1px solid #2E2A24;
     border-radius: 0 1.8rem 1.8rem 0;
     padding: 0 1.2rem 1.5rem 1.2rem;
-    height: 80vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     flex: 1;

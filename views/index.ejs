@@ -20,7 +20,23 @@
                         <img src="/assets/images/martinImg.jpg" alt="Billede af Martin Bysted">
                         <h1>Ask me anything</h1>
                     </div>
-                    <p class="counter"><span>0</span>Question(s) asked </p>
+
+                    <div class="sideInfo">
+                        <% if (Object.keys(topicStats).length> 0) { %>
+                            <div class="stats">
+                                <h2>Mest spurgte emner</h2>
+                                <ul>
+                                    <% for (const [category, count] of Object.entries(topicStats)) { %>
+                                        <li>
+                                            <%= category %>: <%= count %>
+                                        </li>
+                                        <% } %>
+                                </ul>
+                            </div>
+                            <% } %>
+
+                                <p class="counter"><span>0</span>Question(s) asked </p>
+                    </div>
                 </div>
 
                 <!-- chat area -->
