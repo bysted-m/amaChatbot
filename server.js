@@ -188,6 +188,7 @@ function sanitizeQuestion(input) {
     return input.replace(/[\u0000-\u001F\u007F]/g, "");
 }
 
+const messages = [];
 const topicStats = {}
 
 app.get("/", (req, res) => {
