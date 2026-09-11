@@ -73,6 +73,11 @@
             textarea.form.submit();
         }
     });
+
+    const chatArea = document.querySelector(".msgInfo");
+    if (chatArea) {
+        chatArea.scrollTop = chatArea.scrollHeight;
+    }
 </script>
 
 </html>
