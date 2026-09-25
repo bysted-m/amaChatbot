@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask me anything chat bot - Martin Bysted</title>
     <link rel="stylesheet" href="/assets/styles/style.css">
+    <script defer src="/assets/scripts/script.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
@@ -13,6 +14,9 @@
 <body>
     <main>
         <section>
+            <form method="POST" action="/clear-all" class="clearAllForm">
+                <button class="clearButton">Clear history</button>
+            </form>
             <article class="flexContainer">
                 <!-- top row: image + title + counter -->
                 <div class="top-row">
@@ -26,9 +30,9 @@
                             <div class="stats">
                                 <div class="statsTitleRow">
                                     <h2>Mest spurgte emner</h2>
-                                    <form method="POST" action="/clear-stats">
+                                    <!-- <form method="POST" action="/clear-stats">
                                         <button type="submit">Clear</button>
-                                    </form>
+                                    </form> -->
                                 </div>
                                 <ul>
                                     <% for (const [category, count] of Object.entries(topicStats)) { %>
@@ -60,9 +64,7 @@
 
                                 <% for (const message of messages) { %>
                                     <article class="<%= message.type %>">
-                                        <p>
-                                            <%= message.text %>
-                                        </p>
+                                        <p><%= message.text %></p>
                                     </article>
                                     <% } %>
 
@@ -85,20 +87,5 @@
         </section>
     </main>
 </body>
-<script>
-    const textarea = document.getElementById("question");
-
-    textarea.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault();
-            textarea.form.submit();
-        }
-    });
-
-    const chatArea = document.querySelector(".msgInfo");
-    if (chatArea) {
-        chatArea.scrollTop = chatArea.scrollHeight;
-    }
-</script>
 
 </html>

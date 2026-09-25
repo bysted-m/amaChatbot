@@ -23,6 +23,10 @@ main {
     max-width: 1200px;
 }
 
+section {
+    position: relative;
+}
+
 /* ----- card ----- */
 section article {
     background-color: #191714;
@@ -46,7 +50,7 @@ section article {
 /* profile image */
 .top-row img {
 
-    width: 250px;
+    width: 225px;
     max-height: fit-content;
     object-fit: cover;
     border-radius: 12px;
@@ -76,6 +80,7 @@ section article {
     align-items: flex-end;
     gap: 0.75rem;
     margin-left: auto;
+    gap: 2rem;
 }
 
 .stats {
@@ -83,7 +88,7 @@ section article {
     border: 1px solid #2E2A24;
     border-radius: 12px;
     padding: 1rem 1.25rem;
-    width: 250px;
+    width: 225px;
     color: #E8DFD5;
 }
 
@@ -122,7 +127,7 @@ section article {
     justify-content: space-between;
 }
 
-.statsTitleRow button {
+/* .statsTitleRow button {
     appearance: none;
     -webkit-appearance: none;
     border: none;
@@ -135,7 +140,7 @@ section article {
     cursor: pointer;
     text-decoration: underline;
     font-size: 0.75rem;
-}
+} */
 
 /* counter — plain text, all caps */
 .counter {
@@ -151,7 +156,7 @@ section article {
     border-radius: 12px;
     padding-inline: 3.5rem;
     padding-block: 1.5rem;
-    width: 250px;
+    width: 225px;
 }
 
 .counter span {
@@ -171,6 +176,35 @@ section article {
     display: flex;
     flex-direction: column;
     flex: 1;
+}
+
+.clearAllForm {
+    margin: 0;
+    position: absolute;
+    right: 0px;
+    top: -40px;
+}
+
+.clearButton {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid #2E2A24;
+    background: #191714;
+    border-radius: 1rem 1rem 1rem 1rem;
+    padding: 0.5rem;
+    font: inherit;
+    margin-bottom: 0;
+
+    color: #5A5248;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: 0.2s;
+}
+
+.clearButton:hover {
+    color: red;
+    border: 1px solid red;
 }
 
 /* Chatlog */
@@ -272,6 +306,7 @@ section article {
 .answer p {
     margin: 0;
     line-height: 1.5;
+    white-space: pre-line;
 }
 
 .error {

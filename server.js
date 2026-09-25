@@ -103,6 +103,7 @@
 
 import express, { text } from "express";
 import { answers } from "./data/answers.js";
+import fs from "node:fs/promises";
 
 const app = express();
 const port = 3000;
@@ -141,7 +142,7 @@ function countMatches(keywords, normalizedText) {
 // based on which knowledge base entry has the most keyword matches.
 // Resolves function-based answers (like age) into their actual string value.
 function findBestAnswerForPart(part) {
-    const normalizedPart = part.toLowerCase();
+    const normalizedPart = normalizeQuestion(part)
     let bestScore = 0;
     let bestMatch = null;
 
@@ -185,17 +186,44 @@ function findAllAnswers(question) {
 }
 
 function sanitizeQuestion(input) {
-    return input.replace(/[\u0000-\u001F\u007F]/g, "");
+    return input.replace(/[\u0000-\u0009\u000B\u000C\u000E-\u001F\u007F]/g, "");
 }
 
-const messages = [];
-const topicStats = {}
+function normalizeQuestion(question) {
+    return question.toLowerCase().trim().replace(/\s+/g, " ");
+}
 
-app.get("/", (req, res) => {
+async function loadMessages() {
+    const data = await fs.readFile("./data/messages.json", "utf-8");
+    return JSON.parse(data);
+}
+
+async function saveMessages(messages) {
+    const json = JSON.stringify(messages, null, 2);
+    await fs.writeFile("./data/messages.json", json);
+}
+
+async function loadTopicStats() {
+    const data = await fs.readFile("./data/topicStats.json", "utf8");
+    return JSON.parse(data);
+}
+
+async function saveTopicStats(topicStats) {
+    const json = JSON.stringify(topicStats, null, 2);
+    await fs.writeFile("./data/topicStats.json", json);
+}
+
+app.get("/", async (req, res) => {
+    const messages = await loadMessages();
+    const topicStats = await loadTopicStats();
+
     res.render("index", { messages, error: "", topicStats });
 });
 
-app.post("/ask", (req, res) => {
+app.post("/ask", async (req, res) => {
+    const messages = await loadMessages();
+    const topicStats = await loadTopicStats();
+
     const rawQuestion = req.body.question;
     const question = sanitizeQuestion(rawQuestion).trim();
     let error = "";
@@ -224,13 +252,36 @@ app.post("/ask", (req, res) => {
         // }
     }
 
+    await saveMessages(messages);
+    await saveTopicStats(topicStats)
+
     res.render("index", { messages, error: "", topicStats });
 });
 
-app.post("/clear-stats", (req, res) => {
+app.post("/clear-stats", async (req, res) => {
+    const topicStats = await loadTopicStats();
+
     for (const category of Object.keys(topicStats)) {
-        delete topicStats[category]
+        topicStats[category] = 0;
     }
+
+    await saveTopicStats(topicStats);
+    res.redirect("/");
+});
+
+app.post("/clear-messages", async (req, res) => {
+    await saveMessages([]);
+    res.redirect("/");
+});
+
+app.post("/clear-all", async (req, res) => {
+    await saveMessages([]);
+
+    const topicStats = await loadTopicStats();
+    for (const category of Object.keys(topicStats)) {
+        topicStats[category] = 0;
+    }
+    await saveTopicStats(topicStats);
 
     res.redirect("/");
 });
