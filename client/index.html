@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask me anything chat bot - Martin Bysted</title>
-    <link rel="stylesheet" href="/assets/styles/style.css">
-    <script defer src="/assets/scripts/script.js"></script>
+    <link rel="stylesheet" href="./assets/styles/style.css">
+    <script defer src="./assets/scripts/script.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
@@ -14,69 +14,41 @@
 <body>
     <main>
         <section>
-            <form method="POST" action="/clear-all" class="clearAllForm">
-                <button class="clearButton">Clear history</button>
+            <form class="clearAllForm">
+                <button type="button" id="clear-messages-button" class="clearButton">Clear history</button>
             </form>
             <article class="flexContainer">
                 <!-- top row: image + title + counter -->
                 <div class="top-row">
                     <div class="title-group">
-                        <img src="/assets/images/martinImg.jpg" alt="Billede af Martin Bysted">
+                        <img src="./assets/images/martinImg.jpg" alt="Billede af Martin Bysted">
                         <h1>Ask me anything</h1>
                     </div>
 
                     <div class="sideInfo">
-                        <% if (Object.keys(topicStats).length> 0) { %>
-                            <div class="stats">
-                                <div class="statsTitleRow">
-                                    <h2>Mest spurgte emner</h2>
-                                    <!-- <form method="POST" action="/clear-stats">
-                                        <button type="submit">Clear</button>
-                                    </form> -->
-                                </div>
-                                <ul>
-                                    <% for (const [category, count] of Object.entries(topicStats)) { %>
-                                        <li>
-                                            <%= category %>: <%= count %>
-                                        </li>
-                                        <% } %>
-                                </ul>
+                        <div class="stats" id="stats" hidden>
+                            <div class="statsTitleRow">
+                                <h2>Mest spurgte emner</h2>
                             </div>
-                            <% } %>
+                            <ul id="stats-list"></ul>
+                        </div>
 
-                                <p class="counter"><span>0</span>Question(s) asked </p>
+                        <p class="counter"><span id="question-count">0</span>Question(s) asked</p>
                     </div>
                 </div>
 
                 <!-- chat area -->
                 <div class="chat-area">
-                    <div class="msgInfo">
-
-                        <% if (messages.length===0) { %>
-                            <div class="emptyState">
-                                <div class="msg-icon">
-                                    <img src="/assets/images/messageIcon.svg" alt="Message icon">
-                                </div>
-                                <p class="dimTxt">No questions yet.</p>
-                                <p class="dimTxt">Type something below.</p>
+                    <div class="msgInfo" id="messages">
+                        <div class="emptyState" id="empty-state">
+                            <div class="msg-icon">
+                                <img src="./assets/images/messageIcon.svg" alt="Message icon">
                             </div>
-                            <% } else { %>
-
-                                <% for (const message of messages) { %>
-                                    <article class="<%= message.type %>">
-                                        <p><%= message.text %></p>
-                                    </article>
-                                    <% } %>
-
-                                        <% } %>
-                                            <% if (error) { %>
-                                                <p role="alert" class="error">
-                                                    <%= error %>
-                                                </p>
-                                                <% } %>
-
+                            <p class="dimTxt">No questions yet.</p>
+                            <p class="dimTxt">Type something below.</p>
+                        </div>
                     </div>
-                    <form method="POST" action="/ask" id="amaForm">
+                    <form id="amaForm">
                         <textarea id="question" name="question" placeholder="Ask me anything..."></textarea>
                         <button type="submit">
                             <span class="material-symbols-outlined">arrow_outward</span>

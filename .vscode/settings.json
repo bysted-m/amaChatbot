@@ -1,3 +1,4 @@
 {
-    "html.format.contentUnformatted": "pre,code,textarea,p"
+    "html.format.contentUnformatted": "pre,code,textarea,p",
+    "liveServer.settings.root": "/client"
 }

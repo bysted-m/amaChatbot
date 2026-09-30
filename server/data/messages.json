@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "type": "question",
+    "text": "Hvad hedder du og hvor gammel er du ?",
+    "createdAt": "2026-09-30T07:44:53.025Z"
+  },
+  {
+    "type": "answer",
+    "text": "Jeg hedder Martin. Jeg er 27 år gammel",
+    "createdAt": "2026-09-30T07:44:53.025Z"
+  },
+  {
+    "type": "question",
+    "text": "HEJ!",
+    "createdAt": "2026-09-30T08:10:19.586Z"
+  },
+  {
+    "type": "answer",
+    "text": "Hello there :).",
+    "createdAt": "2026-09-30T08:10:19.586Z"
+  }
+]
